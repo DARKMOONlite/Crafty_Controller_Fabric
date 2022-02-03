@@ -1,39 +1,24 @@
-# Installation via Docker
+# Dev Testing Set Up Notes
 
 ## Prerequisites
 
-1. The latest Docker version, you can get it [here](https://www.docker.com/get-started)
-2. The latest version of [docker-compose](https://github.com/docker/compose)
-3. `git` installed on your system
+1. [Download](https://docs.docker.com/compose/install/) and set up Docker for your machine
+  * [New Start Up Guide](https://www.docker.com/get-started)
+  * Optionally, directly install the latest version of [docker-compose](https://github.com/docker/compose)
+2. `git` installed on your system
+  * A GitHub account if you wish to contribute 
+  * Pull the code locally as typical with `git clone https://github.com/DARKMOONlite/Crafty_Controller_Fabric.git`
+  * There are currently no build, docs, or test actions to run. This is pretty bare bones.
 
-## Installation
+## Setting up the dev' environment 
 
-First, lets clone the crafty-web repository to the directory you want. For this tutorial, I will be using `/opt/minecraft`.
-
-Open up a shell window and type:
-
-```bash
-mkdir /opt
-cd /opt
-git clone https://gitlab.com/crafty-controller/crafty-web minecraft
-cd minecraft
-git checkout 3.0
-```
-
-Next, put your minecraft server JAR's into `docker/minecraft_servers`. 
-
-Once that is done, run the container
-
-#### Foreground Mode
-
-```bash
-docker-compose up
-```
-
-#### Background Mode
+The main set up is getting docker running and running compose. Run it in headless via the command-line with
 
 ```bash
 docker-compose up -d
 ```
+
+Next, put your minecraft server JAR's into `docker/minecraft_servers`. 
+Once that is done, run the container
 
 Then just access crafty as you normally would. When specifying the minecraft server directory, please use `/minecraft_servers`
