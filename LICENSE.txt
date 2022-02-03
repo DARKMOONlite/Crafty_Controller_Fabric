@@ -14,6 +14,6 @@ Software: Crafty Controller
 
 License: Apache 2.0 - http://www.apache.org/licenses/LICENSE-2.0
 
-Licensor: Phillip Tarrant
+Licensor: Albert Ferguson, Sebastian Schroeder
 
 Copyright (c) 2020 Phillip Tarrant
