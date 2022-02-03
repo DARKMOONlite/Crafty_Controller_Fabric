@@ -2,6 +2,7 @@ from ast import For
 import  os
 import urllib3
 import  shutil
+import time
 
 version = ""
 fabric_version = ""
@@ -40,7 +41,6 @@ def getinfo():
     path = str(input('Please Enter The Path You Would Like Your Server To Be Located In: '))
     eulapath = path + path_type + 'eula.txt'
     
-    
     jar()
     
 def jar():#Downloads the server Jar File
@@ -56,6 +56,10 @@ def jar():#Downloads the server Jar File
     with c.request('GET', url, preload_content=False) as res, open(filename, 'wb') as out_file:
         shutil.copyfileobj(res, out_file)
         out_file.close()
+    #Store MC version and Fabric version in txt doc    
+    file = open(path+path_type+"version_info.txt" , "w")
+    file.write("Minecraft Version = {} \n Fabric Version = {}".format(version,fabric_version))
+    file.close()
     
     mods()
     
@@ -72,12 +76,11 @@ def mods(): # Downloads mods for the server and places them within the mods fold
     basic_done = False; # Triggers when basic mod packet is installed        
     
     print('What Mods would you like for your server?')
-    while custom == True:
-        
-        print("\n For Basic performance mods type: \"BASIC\"")
-        print("\n Basic Mods are for 1.18.1 only")
-        print("\n or for custom enter url of mods individually") 
-        print("\n Once Required Mods are downloaded, \n or if no mods are desired type: \"DONE\"")           
+    print("\n For Basic performance mods type: \"BASIC\"")
+    print("\n Basic Mods are for 1.18.1 only")
+    print("\n or for custom mods, enter url of mods individually") 
+    print("\n Once Required Mods are downloaded, \n or if no mods are desired type: \"DONE\"")   
+    while custom == True:        
         mod_required = input()            
         if mod_required == "DONE":
             print("Mod Process Finished")
@@ -86,38 +89,38 @@ def mods(): # Downloads mods for the server and places them within the mods fold
             if basic_done==False:
                 
                 print("Downloading Basic Performance Mods")
-                
-
-                    
                 path = path + '{}mods'.format(path_type)
-                
                 if os.path.exists(path) == False:
                     os.makedirs(path)
 
-                for x in len(mod_urls):
+                for x in range(len(mod_urls)):
                     print("Downloading: {}".format(mod_urls[x][1]))
                     c = urllib3.PoolManager()
                     filename = path + path_type + mod_urls[x][1]
                     with c.request('GET', mod_urls[x][0], preload_content=False) as res, open(filename, 'wb') as out_file:
                         shutil.copyfileobj(res, out_file)
                         out_file.close() 
+                    time.sleep(2)
+                    
                 basic_done=True
+                print("Basic Mods Downloaded")
             else:
-                print("Basic Mods Already Installed")
+                print("Basic Mods Already Installed, Type DONE or a Custom URL To Continue.")
             
         else: #? Runs if custom URL or anything else is entered  
             #! IDK if this works lol
             print("Trying to Download: {}".format(mod_required))
             c = urllib3.poolmanager()
-            filename = path + path_type    #? The Line below after the open attepmts to create the new path of the file by spliting the url and taking the file name from that 
-            with c.request('GET', mod_required, preload_content=False) as res, open((path+path_type+mod_required.split("/")[-1]), 'wb') as out_file:
+            filename = path+path_type+mod_required.split("/")[-1]   
+            with c.request('GET', mod_required, preload_content=False) as res, open(filename, 'wb') as out_file:
                 shutil.copyfileobj(res, out_file)
                 out_file.close()  
+            time.sleep(2)
+        
     eulagen()
                 
 def eulagen(): #Auto-completes the minecraft eula
     global eulapath
-    global eulaask
     file = open(eulapath , "w")
     file.write("eula=true")
     file.close()
