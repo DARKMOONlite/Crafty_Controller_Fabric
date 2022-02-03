@@ -1,5 +1,6 @@
 docker/
-# We should find what files dont need to be docked and then add them here
+
+# I don't know why the docker folder is being ignored by the docker
 
 # pattern:
 # { term }
@@ -51,6 +52,8 @@ docker/
 # !src
 
 
+
+# Set it up so that it removes all git files and unnecessary md and txt tiles  
 git*
 **/*.txt
 !requirements*.txt
