@@ -5,6 +5,10 @@
 1. [Download](https://docs.docker.com/compose/install/) and set up Docker for your machine
   * [New Start Up Guide](https://www.docker.com/get-started)
   * Optionally, directly install the latest version of [docker-compose](https://github.com/docker/compose)
+  
+#### If you have issues installing Docker on Windows relating to WSL2:
+  1. Re-run the install manually from [here](https://docs.microsoft.com/en-gb/windows/wsl/install-manual#step-4---download-the-linux-kernel-update-package)
+
 2. `git` installed on your system
   * A GitHub account if you wish to contribute 
   * Pull the code locally as typical with `git clone https://github.com/DARKMOONlite/Crafty_Controller_Fabric.git`
