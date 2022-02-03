@@ -6,12 +6,15 @@
    - [New Start Up Guide](https://www.docker.com/get-started)
    - Optionally, directly install the latest version of [docker-compose](https://github.com/docker/compose)
   
-    - If you have issues installing Docker on Windows relating to WSL2:
-      - Re-run the install manually from [here](https://docs.microsoft.com/en-gb/windows/wsl/install-manual#step-4---download-the-linux-kernel-update-package)
+    - If you have issues installing Docker on Windows: 
+      - relating to WSL2: Re-run the install manually from [here](https://docs.microsoft.com/en-gb/windows/wsl/install-manual#step-4---download-the-linux-kernel-update-package)
+
 <br/><br/>     
 
 2. `git` installed on your system: [Link](https://git-scm.com/downloads)
     - A GitHub account is needed if you wish to contribute 
+<br/><br/> 
+3. A good fashion sense
 
 ---
 ## Download:
@@ -34,3 +37,6 @@ Next, put your minecraft server JAR's into `docker/minecraft_servers`.
 Once that is done, run the container
 
 Then just access crafty as you normally would. When specifying the minecraft server directory, please use `/minecraft_servers`
+<br/><br/> 
+### Known Annoyances 
+-  If `docker-copose` doesn't run, Check the compatibity between the compose file format and the [Docker Engine Release](https://docs.docker.com/compose/compose-file/compose-versioning/)
