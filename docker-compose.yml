@@ -1,4 +1,4 @@
-version: '3'
+version: '4'
 
 services:
   web:
@@ -6,7 +6,7 @@ services:
     # Optional (Linux Only): Automatically allows passthrough of required ports. Remove 'ports' section if enabled.
     # network_mode: host
     ports:
-      - "8000:8000"
+      - "8000:8001"
       - "25500-25600:25500-25600"
     volumes: 
       - ./docker/minecraft_servers:/minecraft_servers
