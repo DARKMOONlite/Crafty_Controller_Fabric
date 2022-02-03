@@ -5,7 +5,7 @@ ENV DEBIAN_FRONTEND="noninteractive"
 # Security Patch for CVE-2021-44228
 ENV LOG4J_FORMAT_MSG_NO_LOOKUPS=true
 
-LABEL maintainer="Albert Ferguson <https://github.com/albert118/> and Sebastian Schroeder <https://github.com/DARKMOONlite>"
+LABEL maintainer="Albert Ferguson <https://github.com/albert118/> and Sebastian Schroder <https://github.com/DARKMOONlite>"
 
 RUN apt-get update
 RUN apt-get install -y python3 python3-dev python3-pip openjdk-8-jre-headless openjdk-11-jre-headless openjdk-16-jre-headless default-jre libmysqlclient-dev
