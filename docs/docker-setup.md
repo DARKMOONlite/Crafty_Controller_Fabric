@@ -38,5 +38,6 @@ Once that is done, run the container
 
 Then just access crafty as you normally would. When specifying the minecraft server directory, please use `/minecraft_servers`
 <br/><br/> 
-### Known Annoyances 
--  If `docker-copose` doesn't run, Check the compatibity between the compose file format and the [Docker Engine Release](https://docs.docker.com/compose/compose-file/compose-versioning/)
+
+### Known General Weirdings 
+-  If `docker-compose` doesn't run, Check the compatibity between the compose file format and the [Docker Engine Release](https://docs.docker.com/compose/compose-file/compose-versioning/)

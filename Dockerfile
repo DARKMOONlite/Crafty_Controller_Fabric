@@ -12,11 +12,11 @@ RUN apt-get install -y python3 python3-dev python3-pip openjdk-8-jre-headless op
 
 COPY requirements.txt /crafty_web/requirements.txt
 RUN pip3 install -r /crafty_web/requirements.txt
-
-COPY ./ /crafty_web
-WORKDIR /crafty_web
+# I changed the working directory to match our folder name. IDK if this does anything, but it cant help. hopefully
+COPY ./ /Crafty_Controller_Fabric 
+WORKDIR /Crafty_Controller_Fabric
 
 EXPOSE 8000
 EXPOSE 25500-25600
-
-CMD ["python3", "crafty.py", "-c", "/crafty_web/configs/docker_config.yml"]
+# Runs the Crafty.py File
+CMD ["python3", "crafty.py", "-c", "/Crafty_Controller_Fabric/configs/docker_config.yml"]

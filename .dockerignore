@@ -1,1 +1,2 @@
 docker/
+# We should find what files dont need to be docked and then add them here
