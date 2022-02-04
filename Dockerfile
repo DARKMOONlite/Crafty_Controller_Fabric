@@ -1,3 +1,5 @@
+# syntax=docker/dockerfile:1
+
 FROM ubuntu:20.04
 
 ENV DEBIAN_FRONTEND="noninteractive"
@@ -7,16 +9,26 @@ ENV LOG4J_FORMAT_MSG_NO_LOOKUPS=true
 
 LABEL maintainer="Albert Ferguson <https://github.com/albert118/> and Sebastian Schroder <https://github.com/DARKMOONlite>"
 
+# Run a quiet and minimal installation
 RUN apt-get update
-RUN apt-get install -y python3 python3-dev python3-pip openjdk-8-jre-headless openjdk-11-jre-headless openjdk-16-jre-headless default-jre libmysqlclient-dev
+RUN apt-get install -yqq --no-install-recommends openjdk-8-jre-headless default-jre
+RUN apt-get install -yqq --no-install-recommends python3 python3-pip libmysqlclient-dev
 
-COPY requirements.txt /crafty_web/requirements.txt
-RUN pip3 install -r /crafty_web/requirements.txt
+RUN mkdir -p /Crafty_Controller_Fabric/app
+WORKDIR /Crafty_Controller_Fabric
 
-COPY ./ /crafty_web
-WORKDIR /crafty_web
+COPY ./configs /Crafty_Controller_Fabric/configs
 
-EXPOSE 8001 
+COPY ./requirements.txt .
+RUN pip3 install --upgrade pip --no-cache-dir -r requirements.txt
+
+COPY ./app /Crafty_Controller_Fabric/app
+
+# Web app port
+EXPOSE 8010
+# MC Server Ports
 EXPOSE 25500-25600
 
-CMD ["python3", "crafty.py", "-c", "/crafty_web/configs/docker_config.yml"]
+COPY ./crafty.py .
+
+CMD ["python3", "crafty.py", "-c", "/Crafty_Controller_Fabric/configs/docker_config.yml"]
