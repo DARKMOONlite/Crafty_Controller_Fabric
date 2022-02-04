@@ -1,4 +1,4 @@
-version: '4'
+version: '3.8' # Version 4 doesn't work for some reason 
 
 services:
   web:
