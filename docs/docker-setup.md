@@ -9,9 +9,9 @@
 #### If you have issues installing Docker on Windows relating to WSL2:
   1. Re-run the install manually from [here](https://docs.microsoft.com/en-gb/windows/wsl/install-manual#step-4---download-the-linux-kernel-update-package)
 
-2. `git` installed on your system
+1. `git` installed on your system
   * A GitHub account if you wish to contribute 
-  * Pull the code locally as typical with `git clone https://github.com/DARKMOONlite/Crafty_Controller_Fabric.git`
+  * Pull the code locally as typical with `git clone https://github.com/**DARKMOONlite**/Crafty_Controller_Fabric.git`
   * There are currently no build, docs, or test actions to run. This is pretty bare bones.
 
 ## Setting up the dev' environment 

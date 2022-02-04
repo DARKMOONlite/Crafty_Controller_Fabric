@@ -1,3 +1,5 @@
+# syntax=docker/dockerfile:1
+
 FROM ubuntu:20.04
 
 ENV DEBIAN_FRONTEND="noninteractive"
@@ -8,15 +10,18 @@ ENV LOG4J_FORMAT_MSG_NO_LOOKUPS=true
 LABEL maintainer="Albert Ferguson <https://github.com/albert118/> and Sebastian Schroder <https://github.com/DARKMOONlite>"
 
 RUN apt-get update
-RUN apt-get install -y python3 python3-dev python3-pip openjdk-8-jre-headless openjdk-11-jre-headless openjdk-16-jre-headless default-jre libmysqlclient-dev
+RUN apt-get install -y openjdk-8-jre-headless openjdk-11-jre-headless openjdk-16-jre-headless default-jre
+RUN apt-get install -y python3 python3-dev python3-pip libmysqlclient-dev
 
-COPY requirements.txt /crafty_web/requirements.txt
-RUN pip3 install -r /crafty_web/requirements.txt
+COPY requirements.txt /Crafty_Controller_Fabric/requirements.txt
+RUN pip3 install --no-cache -r /Crafty_Controller_Fabric/requirements.txt
 
-COPY ./ /crafty_web
-WORKDIR /crafty_web
+COPY ./ /Crafty_Controller_Fabric
+WORKDIR /Crafty_Controller_Fabric
 
-EXPOSE 8000
+# Web app port
+EXPOSE 8010
+# MC Server Ports
 EXPOSE 25500-25600
 
-CMD ["python3", "crafty.py", "-c", "/crafty_web/configs/docker_config.yml"]
+CMD ["python3", "crafty.py", "-c", "/Crafty_Controller_Fabric/configs/docker_config.yml"]
