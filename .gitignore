@@ -1,6 +1,9 @@
 #ignore virtual environment
 /venv/
 .venv
+Lib/
+Scripts/*
+pyvenv.cfg
 
 #ignore .idea from pycharm
 /.idea/

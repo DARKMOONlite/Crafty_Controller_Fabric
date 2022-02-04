@@ -6,8 +6,10 @@ services:
     # Optional (Linux Only): Automatically allows passthrough of required ports. Remove 'ports' section if enabled.
     # network_mode: host
     ports:
-      - "8000:8010"
+      - "8010:8000"
       - "25500-25600:25500-25600"
     volumes: 
       - ./docker/minecraft_servers:/minecraft_servers
       - ./docker/db:/crafty_db
+      # allow hotloading of source-code for web server
+      - ./app:/Crafty_Controller_Fabric/app
