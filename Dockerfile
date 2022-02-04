@@ -10,8 +10,8 @@ LABEL maintainer="Albert Ferguson <https://github.com/albert118/> and Sebastian 
 RUN apt-get update
 RUN apt-get install -y python3 python3-dev python3-pip openjdk-8-jre-headless openjdk-11-jre-headless openjdk-16-jre-headless default-jre libmysqlclient-dev
 
-COPY requirements.txt /crafty_web/requirements.txt
-RUN pip3 install -r /crafty_web/requirements.txt
+COPY requirements.txt /Crafty_Controller_Fabric/requirements.txt
+RUN pip3 install -r /Crafty_Controller_Fabric/requirements.txt
 # I changed the working directory to match our folder name. IDK if this does anything, but it cant help. hopefully
 COPY ./ /Crafty_Controller_Fabric 
 WORKDIR /Crafty_Controller_Fabric
