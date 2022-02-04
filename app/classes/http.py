@@ -32,6 +32,7 @@ from app.classes.handlers.setup_handler import SetupHandler
 from app.classes.handlers.download_handler import DownloadHandler
 
 import app.classes.api as api_routes
+import app.Server.handlers as server_routes
 
 logger = logging.getLogger(__name__)
 
@@ -125,19 +126,19 @@ class webserver():
 
             # API routes
             (r'/api/v1/host_stats', api_routes.GetHostStats, dict(mcserver=self.mc_server)),
-            (r'/api/v1/server_stats', api_routes.GetServerStats, dict(mcserver=self.mc_server)),
-
-            # Server related
+            (r'/api/v1/server_stats', server_routes.GetServerStats, dict(mcserver=self.mc_server)),
             (r'/api/v1/server/send_command', api_routes.SendCommand, dict(mcserver=self.mc_server)),
             (r'/api/v1/server/get_logs', api_routes.GetMCLogs, dict(mcserver=self.mc_server)),
             (r'/api/v1/server/search_logs', api_routes.SearchMCLogs, dict(mcserver=self.mc_server)),
-            (r'/api/v1/server/force_backup', api_routes.ForceServerBackup, dict(mcserver=self.mc_server)),
-            (r'/api/v1/server/start', api_routes.StartServer, dict(mcserver=self.mc_server)),
-            (r'/api/v1/server/stop', api_routes.StopServer, dict(mcserver=self.mc_server)),
-            (r'/api/v1/server/restart', api_routes.RestartServer, dict(mcserver=self.mc_server)),
-            (r'/api/v1/list_servers', api_routes.ListServers, dict(mcserver=self.mc_server)),
 
-            # Crafty related
+            # Server related
+            (r'/api/v1/server/force_backup', server_routes.ForceServerBackup, dict(mcserver=self.mc_server)),
+            (r'/api/v1/server/start', server_routes.StartServer, dict(mcserver=self.mc_server)),
+            (r'/api/v1/server/stop', server_routes.StopServer, dict(mcserver=self.mc_server)),
+            (r'/api/v1/server/restart', server_routes.RestartServer, dict(mcserver=self.mc_server)),
+            (r'/api/v1/list_servers', server_routes.ListServers, dict(mcserver=self.mc_server)),
+
+            # (Crafty) Admin related
             (r'/api/v1/crafty/add_user', api_routes.CreateUser),
             (r'/api/v1/crafty/del_user', api_routes.DeleteUser),
             (r'/api/v1/crafty/get_logs', api_routes.GetCraftyLogs),
