@@ -31,8 +31,8 @@ from app.classes.handlers.ajax_handler import AjaxHandler
 from app.classes.handlers.setup_handler import SetupHandler
 from app.classes.handlers.download_handler import DownloadHandler
 
-import app.classes.api as api_route
-import app.Server.handlers as server_route
+import app.classes.api as api_routes
+import app.Server.handlers as server_routes
 
 logger = logging.getLogger(__name__)
 
@@ -125,24 +125,24 @@ class webserver():
             (r'/images(.*)', tornado.web.StaticFileHandler, {"path": "/images"}),
 
             # API routes
-            (r'/api/v1/host_stats', api_route.GetHostStats, dict(mcserver=self.mc_server)),
-            (r'/api/v1/server_stats', server_route.GetServerStats, dict(mcserver=self.mc_server)),
+            (r'/api/v1/host_stats', api_routes.GetHostStats, dict(mcserver=self.mc_server)),
+            (r'/api/v1/server_stats', server_routes.GetServerStats, dict(mcserver=self.mc_server)),
+            (r'/api/v1/server/send_command', api_routes.SendCommand, dict(mcserver=self.mc_server)),
+            (r'/api/v1/server/get_logs', api_routes.GetMCLogs, dict(mcserver=self.mc_server)),
+            (r'/api/v1/server/search_logs', api_routes.SearchMCLogs, dict(mcserver=self.mc_server)),
 
             # Server related
-            (r'/api/v1/server/send_command', api_route.SendCommand, dict(mcserver=self.mc_server)),
-            (r'/api/v1/server/get_logs', api_route.GetMCLogs, dict(mcserver=self.mc_server)),
-            (r'/api/v1/server/search_logs', api_route.SearchMCLogs, dict(mcserver=self.mc_server)),
-            (r'/api/v1/server/force_backup', server_route.ForceServerBackup, dict(mcserver=self.mc_server)),
-            (r'/api/v1/server/start', server_route.StartServer, dict(mcserver=self.mc_server)),
-            (r'/api/v1/server/stop', server_route.StopServer, dict(mcserver=self.mc_server)),
-            (r'/api/v1/server/restart', server_route.RestartServer, dict(mcserver=self.mc_server)),
-            (r'/api/v1/list_servers', server_route.ListServers, dict(mcserver=self.mc_server)),
+            (r'/api/v1/server/force_backup', server_routes.ForceServerBackup, dict(mcserver=self.mc_server)),
+            (r'/api/v1/server/start', server_routes.StartServer, dict(mcserver=self.mc_server)),
+            (r'/api/v1/server/stop', server_routes.StopServer, dict(mcserver=self.mc_server)),
+            (r'/api/v1/server/restart', server_routes.RestartServer, dict(mcserver=self.mc_server)),
+            (r'/api/v1/list_servers', server_routes.ListServers, dict(mcserver=self.mc_server)),
 
-            # Crafty related
-            (r'/api/v1/crafty/add_user', api_route.CreateUser),
-            (r'/api/v1/crafty/del_user', api_route.DeleteUser),
-            (r'/api/v1/crafty/get_logs', api_route.GetCraftyLogs),
-            (r'/api/v1/crafty/search_logs', api_route.SearchCraftyLogs)   
+            # (Crafty) Admin related
+            (r'/api/v1/crafty/add_user', api_routes.CreateUser),
+            (r'/api/v1/crafty/del_user', api_routes.DeleteUser),
+            (r'/api/v1/crafty/get_logs', api_routes.GetCraftyLogs),
+            (r'/api/v1/crafty/search_logs', api_routes.SearchCraftyLogs)   
         ]
 
         cert_objects = {
