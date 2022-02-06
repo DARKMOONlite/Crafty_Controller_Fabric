@@ -1,38 +1,29 @@
+import asyncio
+import json
+import logging
 import os
 import sys
-import json
-import time
-import secrets
-import asyncio
-import logging
-import schedule
 import threading
-import tornado.web
+
+from app.classes.handlerBuilder import BuildModuleUrls
+import tornado.escape
+import tornado.httpserver
 import tornado.ioloop
+import tornado.locale
 import tornado.log
 import tornado.template
-import tornado.escape
-import tornado.locale
-import tornado.httpserver
-from pathlib import Path
-
+import tornado.web
+from app.api import *
 from app.classes.console import console
-from app.classes.models import Crafty_settings, Webserver
-from app.classes.ftp import ftp_svr_object
-from app.classes.minecraft_server import mc_server
-from app.classes.helpers import helper
-from app.classes.web_sessions import web_session
-from app.classes.multiserv import multi
-from app.classes.handlers.base_handler import BaseHandler
-from app.classes.handlers.default404 import My404Handler
-from app.classes.handlers.public_handler import PublicHandler
 from app.classes.handlers.admin_handler import AdminHandler
 from app.classes.handlers.ajax_handler import AjaxHandler
-from app.classes.handlers.setup_handler import SetupHandler
+from app.classes.handlers.default404 import My404Handler
 from app.classes.handlers.download_handler import DownloadHandler
-
-import app.classes.api as api_routes
-import app.Server.handlers as server_routes
+from app.classes.handlers.public_handler import PublicHandler
+from app.classes.handlers.setup_handler import SetupHandler
+from app.classes.helpers import helper
+from app.classes.minecraft_server import mc_server
+from app.classes.models import Crafty_settings, Webserver
 
 logger = logging.getLogger(__name__)
 
@@ -114,7 +105,13 @@ class webserver():
             else:
                 console.warning("Unable to find your public IP\nThe service might be down, or your internet is down.")
 
+        module_url_list = [
+            'command',
+            'server',
+        ]
+
         handlers = [
+            # Generic routes
             (r'/', PublicHandler),
             (r'/([a-zA-Z]+)', PublicHandler),
             (r'/admin/downloadbackup', DownloadHandler),
@@ -124,26 +121,23 @@ class webserver():
             (r'/static(.*)', tornado.web.StaticFileHandler, {"path": '/'}),
             (r'/images(.*)', tornado.web.StaticFileHandler, {"path": "/images"}),
 
-            # API routes
-            (r'/api/v1/host_stats', api_routes.GetHostStats, dict(mcserver=self.mc_server)),
-            (r'/api/v1/server_stats', server_routes.GetServerStats, dict(mcserver=self.mc_server)),
-            (r'/api/v1/server/send_command', api_routes.SendCommand, dict(mcserver=self.mc_server)),
-            (r'/api/v1/server/get_logs', api_routes.GetMCLogs, dict(mcserver=self.mc_server)),
-            (r'/api/v1/server/search_logs', api_routes.SearchMCLogs, dict(mcserver=self.mc_server)),
+            # User Handlers
+            (r'/api/v1/crafty/add_user', user_handlers.CreateUser),
+            (r'/api/v1/crafty/del_user', user_handlers.DeleteUser),
 
-            # Server related
-            (r'/api/v1/server/force_backup', server_routes.ForceServerBackup, dict(mcserver=self.mc_server)),
-            (r'/api/v1/server/start', server_routes.StartServer, dict(mcserver=self.mc_server)),
-            (r'/api/v1/server/stop', server_routes.StopServer, dict(mcserver=self.mc_server)),
-            (r'/api/v1/server/restart', server_routes.RestartServer, dict(mcserver=self.mc_server)),
-            (r'/api/v1/list_servers', server_routes.ListServers, dict(mcserver=self.mc_server)),
+            # Server path that isn't in server module
+            (r'/api/v1/list_servers', server_handlers.ListServers, dict(mcserver=self.mc_server)),
+            (r'/api/v1/host_stats', server_handlers.GetHostStats, dict(mcserver=self.mc_server)),
+            (r'/api/v1/server_stats', server_handlers.GetServerStats, dict(mcserver=self.mc_server)),
 
-            # (Crafty) Admin related
-            (r'/api/v1/crafty/add_user', api_routes.CreateUser),
-            (r'/api/v1/crafty/del_user', api_routes.DeleteUser),
-            (r'/api/v1/crafty/get_logs', api_routes.GetCraftyLogs),
-            (r'/api/v1/crafty/search_logs', api_routes.SearchCraftyLogs)   
+            # Log Handlers
+            (r'/api/v1/crafty/get_logs', log_handlers.GetCraftyLogs),
+            (r'/api/v1/crafty/search_logs', log_handlers.SearchCraftyLogs),
+            (r'/api/v1/server/get_logs', log_handlers.GetMCLogs, dict(mcserver=self.mc_server)),
+            (r'/api/v1/server/search_logs', log_handlers.SearchMCLogs, dict(mcserver=self.mc_server)),  
         ]
+
+        handlers += BuildModuleUrls(module_url_list)
 
         cert_objects = {
             'certfile': os.path.join(web_root, 'certs', 'crafty.crt'),
