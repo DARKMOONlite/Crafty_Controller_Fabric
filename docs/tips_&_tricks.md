@@ -22,8 +22,10 @@ docker exec -t -i "Container ID" /bin/bash
 1. Access the file structure via the method above
 2. find the folder with the server jar file, by default this should be
 ```bash
-ls server/server_1
+cd server/server_1
 ```
+you can use `ls` to see what folders are within the current directory
+
 3. From here manually run the server.jar file with
 ```bash
 Java -jar server.jar

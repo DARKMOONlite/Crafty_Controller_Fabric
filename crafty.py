@@ -248,7 +248,7 @@ if __name__ == '__main__':
         # save a file in app/config/new_install so we know this is a new install
         helper.make_new_install_file()
 
-        admin_pass = "Admin" #! Password has been set as Admin for the time being
+        admin_pass = helper.random_string_generator()
         admin_token = secrets.token_urlsafe(32)
 
         peewee.default_settings(admin_pass, admin_token)
@@ -283,7 +283,7 @@ if __name__ == '__main__':
             helper.get_local_ip(), port_number))
         console.info("Your Username is: Admin")
         console.info("Your Password is: {}".format(admin_pass))
-        console.info("Your Admin token is: {}".format(admin_token))
+
 
         ''' moving this to 3.2
         if not daemon_mode:
@@ -323,6 +323,8 @@ if __name__ == '__main__':
 
     console.info("Crafty Startup Procedure Complete")
     console.help("Type 'stop' or 'exit' to shutdown Crafty")
+    peewee
+    console.info("The current Admin Password is {}".format(peewee.password()))
 
     if not daemon_mode:
         Crafty = MainPrompt(mc_server)
