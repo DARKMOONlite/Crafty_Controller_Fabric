@@ -24,8 +24,8 @@ RUN pip3 install --upgrade pip --no-cache-dir -r requirements.txt
 
 COPY ./app /Crafty_Controller_Fabric/app
 
-RUN mkdir -p /Crafty_Controller_Fabric/docker
-COPY ./docker /Crafty_Controller_Fabric/docker
+RUN mkdir -p /Crafty_Controller_Fabric/server/server_1 
+COPY ./docker/minecraft_servers /Crafty_Controller_Fabric/server/server_1
 
 
 # Web app port
