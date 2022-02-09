@@ -137,7 +137,7 @@ class webserver():
             (r'/api/v1/server/search_logs', log_handlers.SearchMCLogs, dict(mcserver=self.mc_server)),  
         ]
 
-        handlers += BuildModuleUrls(module_url_list)
+        handlers += BuildModuleUrls(module_url_list, logger)
 
         cert_objects = {
             'certfile': os.path.join(web_root, 'certs', 'crafty.crt'),
