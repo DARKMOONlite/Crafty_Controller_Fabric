@@ -24,8 +24,8 @@ RUN pip3 install --upgrade pip --no-cache-dir -r requirements.txt
 
 COPY ./app /Crafty_Controller_Fabric/app
 
-RUN mkdir -p /Crafty_Controller_Fabric/server/server_1
-
+# This will be removed and added to the MCServCreate.py file
+RUN mkdir -p /Crafty_Controller_Fabric/server
 COPY ./docker/minecraft_servers /Crafty_Controller_Fabric/server
 
 
