@@ -26,7 +26,7 @@ COPY ./app /Crafty_Controller_Fabric/app
 
 RUN mkdir -p /Crafty_Controller_Fabric/server/server_1
 
-COPY ./docker/minecraft_servers /Crafty_Controller_Fabric/server/server_1
+COPY ./docker/minecraft_servers /Crafty_Controller_Fabric/server
 
 
 # Web app port
