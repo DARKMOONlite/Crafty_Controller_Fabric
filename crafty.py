@@ -283,7 +283,7 @@ if __name__ == '__main__':
             helper.get_local_ip(), port_number))
         console.info("Your Username is: Admin")
         console.info("Your Password is: {}".format(admin_pass))
-
+        console.info("Your Admin token is: {}".format(admin_token))
 
         ''' moving this to 3.2
         if not daemon_mode:
@@ -323,8 +323,7 @@ if __name__ == '__main__':
 
     console.info("Crafty Startup Procedure Complete")
     console.help("Type 'stop' or 'exit' to shutdown Crafty")
-    peewee
-    console.info("The current Admin Password is {}".format(peewee.password()))
+
 
     if not daemon_mode:
         Crafty = MainPrompt(mc_server)
