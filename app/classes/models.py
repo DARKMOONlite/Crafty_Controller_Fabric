@@ -1,24 +1,19 @@
-import os
-import json
 import datetime
-from peewee import DateTimeField, CharField, FloatField, Model, IntegerField, BooleanField, SqliteDatabase, AutoField
-from playhouse.shortcuts import model_to_dict, dict_to_model
-from playhouse.migrate import *
-from app.classes.helpers import helper
 import logging
 
-# SQLite database using WAL journal mode and 10MB cache.
-# Note: runs on import
-database = SqliteDatabase(helper.get_db_path(), pragmas={
-    'journal_mode': 'wal',
-    'cache_size': -1024 * 10})
+from infrastructure.store.Database import Database
+from peewee import (AutoField, BooleanField, CharField, DateTimeField,
+                    FloatField, IntegerField, Model)
+from playhouse.migrate import *
+from playhouse.shortcuts import model_to_dict
 
 logger = logging.getLogger(__name__)
 
 
 class BaseModel(Model):
     class Meta:
-        database = database
+        # access the singleton class of Database, available to the whole app
+        database = Database.GetDatabase()
 
 
 class Host_Stats(BaseModel):
@@ -191,10 +186,11 @@ class History(BaseModel):
 
 
 class sqlhelper():
-
     def create_tables(self):
-        with database:
-            database.create_tables([Users,
+        _database = Database.GetDatabase()
+
+        with _database:
+            _database.create_tables([Users,
                                     MC_settings,
                                     Webserver,
                                     Schedules,
@@ -211,7 +207,6 @@ class sqlhelper():
                                    )
 
     def default_settings(self, admin_pass, admin_token):
-
         from app.classes.helpers import helper
 
         Users.insert({
@@ -293,11 +288,13 @@ class sqlhelper():
     # default settings created here if they don't already exits
 
     def do_database_migrations(self):
+        _database = Database.GetDatabase()
+
         migrator = SqliteMigrator(database)
         language = CharField(default='en_EN')
 
         # grab all the columns in the crafty settings table
-        crafty_settings = database.get_columns("crafty_settings")
+        crafty_settings = _database.get_columns("crafty_settings")
 
         has_lang = False
 
