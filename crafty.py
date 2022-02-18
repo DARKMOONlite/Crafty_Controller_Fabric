@@ -324,6 +324,7 @@ if __name__ == '__main__':
     console.info("Crafty Startup Procedure Complete")
     console.help("Type 'stop' or 'exit' to shutdown Crafty")
 
+
     if not daemon_mode:
         Crafty = MainPrompt(mc_server)
         Crafty.cmdloop()

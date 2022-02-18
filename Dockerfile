@@ -11,7 +11,7 @@ LABEL maintainer="Albert Ferguson <https://github.com/albert118/> and Sebastian 
 
 # Run a quiet and minimal installation
 RUN apt-get update
-RUN apt-get install -yqq --no-install-recommends openjdk-8-jre-headless default-jre
+RUN apt-get install -yqq --no-install-recommends openjdk-17-jre-headless default-jre
 RUN apt-get install -yqq --no-install-recommends python3 python3-pip libmysqlclient-dev
 
 RUN mkdir -p /Crafty_Controller_Fabric/app
@@ -23,6 +23,11 @@ COPY ./requirements.txt .
 RUN pip3 install --upgrade pip --no-cache-dir -r requirements.txt
 
 COPY ./app /Crafty_Controller_Fabric/app
+
+# This will be removed and added to the MCServCreate.py file
+RUN mkdir -p /Crafty_Controller_Fabric/server
+COPY ./docker/minecraft_servers /Crafty_Controller_Fabric/server
+
 
 # Web app port
 EXPOSE 8010

@@ -3,6 +3,7 @@ import  os
 import urllib3
 import  shutil
 import time
+import subprocess
 
 version = ""
 fabric_version = ""
@@ -18,35 +19,45 @@ mod_urls = [["https://www.curseforge.com/minecraft/mc-mods/fabric-api/download/3
             ["https://www.curseforge.com/minecraft/mc-mods/worldedit/download/3631606/file","worldedit-mod-7.2.9.jar"]
             ]
 
-def getinfo():
-    global version
-    global path
-    global eulapath
-    global fabric_version
+def get_info():
     global path_type
-    
     if os.name == 'nt':
         path_type = "\\"
     else:
         path_type = "/"
     
+
+
+
+def create_folder(): #Creates a folder for the server
+    global path
+    i = True
+
+    print("By default Servers are stored within the server folder")
+    while i == True:
+        path = "server"+ path_type + input("Please input the folder name you wish to use:")
+        try:
+            os.makedirs(path,)
+            print("Directory {} created successfully".format(path))
+            i=False
+        except OSError:
+            print("That directory already exists, please pick another")
+
+
+
+
+def get_jar():#Downloads the server Jar File
+    global version
+    global fabric_version
+
     print("Please Choose A Server Version:")
-    print("\t eg: (1.18.1, 1.17.1, 1.16.5, 1.15.2) \n") 
+    print("\t eg: (1.18.1, 1.17.1, 1.16.5, 1.15.2 etc) \n") 
     version = str(input("Please Enter Your Choice: ")).strip
     
-    print("Please Select the Fabric Version you want:")
+    print("Please Select the Fabric Version you want: \n")
     print("recommended: 0.13.0")
+
     fabric_version = str(input()).strip
-    
-    path = str(input('Please Enter The Path You Would Like Your Server To Be Located In: '))
-    eulapath = path + path_type + 'eula.txt'
-    
-    jar()
-    
-def jar():#Downloads the server Jar File
-    global version
-    global path
-    global fabric_version
     if os.path.exists(path) == False:
         os.makedirs(path)
     print("Downloading {} Server Jar".format(version))
@@ -60,10 +71,9 @@ def jar():#Downloads the server Jar File
     file = open(path+path_type+"version_info.txt" , "w")
     file.write("Minecraft Version = {} \n Fabric Version = {}".format(version,fabric_version))
     file.close()
-    
-    mods()
-    
-    
+
+
+
 def mods(): # Downloads mods for the server and places them within the mods folder
 #? A better method to store plugins (because of their small size would be 
 #?to store theme within a file and then copy them to the mod folder when needed)
@@ -110,25 +120,40 @@ def mods(): # Downloads mods for the server and places them within the mods fold
         else: #? Runs if custom URL or anything else is entered  
             #! IDK if this works lol
             print("Trying to Download: {}".format(mod_required))
-            c = urllib3.poolmanager()
-            filename = path+path_type+mod_required.split("/")[-1]   
-            with c.request('GET', mod_required, preload_content=False) as res, open(filename, 'wb') as out_file:
-                shutil.copyfileobj(res, out_file)
-                out_file.close()  
-            time.sleep(2)
-        
-    eulagen()
-                
+            try:
+                c = urllib3.poolmanager()
+                filename = path+path_type+mod_required.split("/")[-1]   
+                with c.request('GET', mod_required, preload_content=False) as res, open(filename, 'wb') as out_file:
+                    shutil.copyfileobj(res, out_file)
+                    out_file.close()  
+                time.sleep(2)
+                print("downloaded:{}".format(mod_required))
+            except:
+                print("Something went wrong, probably my code")
+
+
+def initilise_server_files() # just runs the jar file first to initialise all requried files before server starts.
+    subprocess.call(['java', '-jar', 'server{}fabric.jar'.format(path_type)])
+
+
 def eulagen(): #Auto-completes the minecraft eula
     global eulapath
+    eulapath = path + path_type + 'eula.txt'
     file = open(eulapath , "w")
-    file.write("eula=true")
+    file.write("eula=True")
     file.close()
-    end()
-    
-def end():
-    global path
-    print("Please Enter The Following Info Into Crafty:")
+
+    print("Your server should be initialised")
     print("\t Path: " + path + "\n \t Server Jar: fabric.jar ")
 
-getinfo()
+
+def mcservcreate():
+    get_info()
+    get_jar()
+    mods()
+    initilise_server_files()
+    eulagen()
+
+
+mcservcreate()
+

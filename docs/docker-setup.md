@@ -46,3 +46,7 @@ docker-compose up -d
 ```
 
 5. Done!
+
+6. Not Done!  if you want the MC server to run, run the server.jar file manually via the method described in tips and tricks
+7. Then Run the minecraft Server.
+8. Done!
