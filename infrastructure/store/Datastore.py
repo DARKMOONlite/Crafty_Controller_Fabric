@@ -1,10 +1,10 @@
 
-from SingletonMeta import SingletonMeta
+from ..SingletonMeta import SingletonMeta
 from peewee import SqliteDatabase
 from app.classes.helpers import helper
 import logging
 
-class Database(metaclass=SingletonMeta):
+class Datastore(metaclass=SingletonMeta):
     """
     The Database entry point. Note that this is a singleton pattern to avoid
     implementing a container for the moment. 

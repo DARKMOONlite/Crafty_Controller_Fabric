@@ -1,10 +1,10 @@
 import datetime
 import logging
 
-from infrastructure.store.Database import Database
+from infrastructure.store.Datastore import Datastore
 from models.BaseModel import BaseModel
 from peewee import (AutoField, BooleanField, CharField, DateTimeField,
-                    FloatField, IntegerField, Model)
+                    FloatField, IntegerField)
 from playhouse.migrate import *
 from playhouse.shortcuts import model_to_dict
 
@@ -182,7 +182,7 @@ class History(BaseModel):
 
 class sqlhelper():
     def create_tables(self):
-        _database = Database.GetDatabase()
+        _database = Datastore().GetDatabase()
 
         with _database:
             _database.create_tables([Users,
@@ -279,13 +279,13 @@ class sqlhelper():
             Ftp_Srv.password: helper.random_string_generator(8)
         }).execute()
 
-    # this is our upgrade migration function
-    # default settings created here if they don't already exits
-
     def do_database_migrations(self):
-        _database = Database.GetDatabase()
+        # this is our upgrade migration function
+        # default settings created here if they don't already exits
 
-        migrator = SqliteMigrator(database)
+        _database = Datastore().GetDatabase()
+
+        migrator = SqliteMigrator(_database)
         language = CharField(default='en_EN')
 
         # grab all the columns in the crafty settings table
