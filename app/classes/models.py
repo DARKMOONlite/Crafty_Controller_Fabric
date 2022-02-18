@@ -2,18 +2,13 @@ import datetime
 import logging
 
 from infrastructure.store.Database import Database
+from models.BaseModel import BaseModel
 from peewee import (AutoField, BooleanField, CharField, DateTimeField,
                     FloatField, IntegerField, Model)
 from playhouse.migrate import *
 from playhouse.shortcuts import model_to_dict
 
 logger = logging.getLogger(__name__)
-
-
-class BaseModel(Model):
-    class Meta:
-        # access the singleton class of Database, available to the whole app
-        database = Database.GetDatabase()
 
 
 class Host_Stats(BaseModel):
